@@ -58,18 +58,20 @@ module.exports = (function() {
 
     for (var o in marker) {
       var styleMarker = marker[o];
-      $element.each(function(idx, el) {
-        if (styleMarker.test(el)) {
-          addMarker(el, styleMarker);
+        var list = [].slice.call($element);
+        for(var k in list){
+          var el = list[k];
+          if (styleMarker.test(el)) {
+            addMarker(el, styleMarker);
+          }
         }
-      });
     }
 
     var html = [];
-
-    $element.each(function(idx, el) {
-      html.push(jQuery(el).html());
-    });
+    var list = [].slice.call($element);
+    for(var k in list){
+      html.push(list[k].innerHTML);
+    }
 
     return html.join('');
   };
