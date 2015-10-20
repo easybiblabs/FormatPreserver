@@ -16,26 +16,32 @@ module.exports = (function() {
   var marker = {
     bold: {
       test: isBold,
-      startMarker: '|BOLD|',
-      endMarker: '|/BOLD|',
+      startMarker: '#BOLD#',
+      endMarker: '#ENDBOLD#',
       startStyle: '<span style="font-weight: bold">',
       endStyle: '</span>'
     },
     underline: {
       test: isUnderline,
-      startMarker: '|UNDERLINE|/',
-      endMarker: '/|/UNDERLINE|/',
+      startMarker: '#UNDERLINE#',
+      endMarker: '#ENDUNDERLINE#',
       startStyle: '<span style="text-decoration: underline">',
       endStyle: '</span>'
     },
     italic: {
       test: isItalic,
-      startMarker: '|ITALIC|',
-      endMarker: '|/ITALIC|',
+      startMarker: '#ITALIC#',
+      endMarker: '#ENDITALIC#',
       startStyle: '<span style="font-style: italic">',
       endStyle: '</span>'
     }
   };
+
+  for (var o in marker) {
+    var styleMarker = marker[o];
+    styleMarker.startRegex = new RegExp(styleMarker.startMarker, 'g');
+    styleMarker.endRegex = new RegExp(styleMarker.endMarker, 'g');
+  }
 
   var addMarker = function($element, marker) {
     return $element.text([marker.startMarker, $element.text(), marker.endMarker].join(''));
@@ -65,20 +71,12 @@ module.exports = (function() {
     return html.join('');
   };
 
-  var replaceAllOccurences = function(element, markerToReplace, markerReplacement) {
-    while (element.indexOf(markerToReplace) !== -1) {
-      element = element.replace(markerToReplace, markerReplacement);
-    }
-
-    return element;
-  };
-
   var replaceMaker = function(element) {
     for (var o in marker) {
       var styleMarker = marker[o];
 
-      element = replaceAllOccurences(element, styleMarker.startMarker, styleMarker.startStyle);
-      element = replaceAllOccurences(element, styleMarker.endMarker, styleMarker.endStyle);
+      element = element.replace(styleMarker.startRegex, styleMarker.startStyle);
+      element = element.replace(styleMarker.endRegex, styleMarker.endStyle);
 
     }
 
