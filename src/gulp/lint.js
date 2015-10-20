@@ -8,10 +8,10 @@
   gulp.task('lint', ['eslint', 'jscs']);
 
   var paths = [
-    './src/**/*.js',
-    '!./src/gulp'
+    __dirname  +'/../../src/**/*.js'
   ];
-// rules set in .eslintrc
+
+  // rules set in .eslintrc
   gulp.task('eslint', function() {
     return gulp
       .src(paths)
