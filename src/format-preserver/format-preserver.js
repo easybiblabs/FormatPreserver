@@ -1,16 +1,20 @@
 module.exports = (function() {
   'use strict';
 
-  var isBold = function($element) {
-    return $element.css('font-weight') === 'bold' || $element.prop('tagName') === 'B';
+  var hasStyle = function(element, key, value) {
+    return getComputedStyle(element)[key] === value || element.style[key] === value;
   };
 
-  var isItalic = function($element) {
-    return $element.css('font-style') === 'italic' || $element.prop('tagName') === 'I';
+  var isBold = function(element) {
+    return hasStyle(element, 'font-weight', 'bold') || element.tagName === 'B';
   };
 
-  var isUnderline = function($element) {
-    return $element.css('text-decoration') === 'underline' || $element.prop('tagName') === 'U';
+  var isItalic = function(element) {
+    return hasStyle(element, 'font-style', 'italic') || element.tagName === 'I';
+  };
+
+  var isUnderline = function(element) {
+    return hasStyle(element, 'text-decoration', 'underline') || element.tagName === 'U';
   };
 
   var marker = {
@@ -43,8 +47,8 @@ module.exports = (function() {
     styleMarker.endRegex = new RegExp(styleMarker.endMarker, 'g');
   }
 
-  var addMarker = function($element, marker) {
-    return $element.text([marker.startMarker, $element.text(), marker.endMarker].join(''));
+  var addMarker = function(element, marker) {
+    element.textContent = [marker.startMarker, element.textContent, marker.endMarker].join('');
   };
 
   var addMarkers = function($element) {
@@ -55,9 +59,8 @@ module.exports = (function() {
     for (var o in marker) {
       var styleMarker = marker[o];
       $element.each(function(idx, el) {
-        var $el = jQuery(el);
-        if (styleMarker.test($el)) {
-          addMarker($el, styleMarker);
+        if (styleMarker.test(el)) {
+          addMarker(el, styleMarker);
         }
       });
     }
