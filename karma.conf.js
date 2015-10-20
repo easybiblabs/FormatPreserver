@@ -7,7 +7,16 @@ var webpackConfigKarma = {
   cache: true,
   watch: true,
   debug: true,
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
+  module: {
+    postLoaders: [
+      { // << add subject as webpack's postloader
+        test: /\.js$/,
+        exclude: /(node_modules|_spec)/,
+        loader: 'istanbul-instrumenter'
+      }
+    ]
+  }
 };
 
 module.exports = function(config) {
