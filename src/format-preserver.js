@@ -1,16 +1,16 @@
 module.exports = function() {
   'use strict';
 
-  var isBold = function($element) {
-    return $element.css('font-weight') === 'bold' || $element.prop('tagName') === 'B';
+  var isBold = function(element) {
+    return getComputedStyle(element)['font-weight'] || element.tagName === 'B';
   };
 
-  var isItalic = function($element) {
-    return $element.css('font-style') === 'italic' || $element.prop('tagName') === 'I';
+  var isItalic = function(element) {
+    return getComputedStyle(element)['font-style'] === 'italic' || element.tagName === 'I';
   };
 
-  var isUnderline = function($element) {
-    return $element.css('text-decoration') === 'underline' || $element.prop('tagName') === 'U';
+  var isUnderline = function(element) {
+    return getComputedStyle(element)['text-decoration'] === 'underline' || element.tagName === 'U';
   };
 
   var marker = {
@@ -37,29 +37,28 @@ module.exports = function() {
     }
   };
 
-  var addMarker = function($element, marker) {
-    return $element.text([marker.startMarker, $element.text(), marker.endMarker].join(''));
+  var addMarker = function(element, marker) {
+    return element.textContent = [marker.startMarker, element.textContent, marker.endMarker].join('');
   };
 
-  var addMarkers = function($element) {
-    if ($element.children().length) {
-      addMarkers(jQuery($element.children()));
+  var addMarkers = function(element) {
+    if (element.children.length) {
+      addMarkers(element.children);
     }
 
     for (var o in marker) {
       var styleMarker = marker[o];
-      $element.each(function(idx, el) {
-        var $el = jQuery(el);
-        if (styleMarker.test($el)) {
-          addMarker($el, styleMarker);
+      Array.prototype.forEach.call(element, function(el){
+        if (styleMarker.test(el)) {
+          addMarker(el, styleMarker);
         }
       });
     }
 
     var html = [];
 
-    $element.each(function(idx, el) {
-      html.push(jQuery(el).html());
+    Array.prototype.forEach.call(element, function(el){
+      html.push(el.innerHTML);
     });
 
     return html.join('');
@@ -87,9 +86,9 @@ module.exports = function() {
 
   this.preserveFormat = function(htmlContent){
     var tmp = document.implementation.createHTMLDocument('sandbox').body;
-    tmp.innerHTML = addMarkers(jQuery(htmlContent));
+    tmp.innerHTML = addMarkers(htmlContent);
 
-    return tmp.textContent || tmp.innerText || '';
+    return tmp.textContent;
   };
 
   this.restoreFormat = function(htmlContent){
