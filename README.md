@@ -1,9 +1,9 @@
 # format-preserver
 
-# Setup
+### Setup
 
 * make install
 
-* Tests
+### CI
 
-* make karma
+* make ci
