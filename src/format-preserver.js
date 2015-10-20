@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = (function() {
   'use strict';
 
   var isBold = function($element) {
@@ -85,14 +85,15 @@ module.exports = function() {
     return element;
   };
 
-  this.preserveFormat = function(htmlContent){
-    var tmp = document.implementation.createHTMLDocument('sandbox').body;
-    tmp.innerHTML = addMarkers(jQuery(htmlContent));
+  return {
+    preserveFormat: function(htmlContent) {
+      var tmp = document.implementation.createHTMLDocument('sandbox').body;
+      tmp.innerHTML = addMarkers(jQuery(htmlContent));
 
-    return tmp.textContent || tmp.innerText || '';
+      return tmp.textContent || tmp.innerText || '';
+    },
+    restoreFormat: function(htmlContent) {
+      return replaceMaker(htmlContent);
+    }
   };
-
-  this.restoreFormat = function(htmlContent){
-    return replaceMaker(htmlContent);
-  };
-};
+}());
