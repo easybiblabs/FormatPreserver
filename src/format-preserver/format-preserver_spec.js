@@ -2,7 +2,6 @@ describe('Format Preserver', function() {
   'use strict';
 
   var FormatPreserver = require('./format-preserver');
-  window.jQuery = require('jquery');
 
   describe('element without children', function() {
     describe('using inline styles', function() {
