@@ -67,15 +67,15 @@ module.exports = (function() {
     return [].slice.call(el.children);
   };
 
-  var addMarkers = function($element) {
-    var children = getChildren($element);
+  var addMarkers = function(element) {
+    var children = getChildren(element);
     if (children.length) {
       addMarkers(children);
     }
 
     for (var o in marker) {
       var styleMarker = marker[o];
-      var list = [].slice.call($element);
+      var list = [].slice.call(element);
       for (var k in list) {
         var el = list[k];
         if (styleMarker.test(el)) {
@@ -85,7 +85,7 @@ module.exports = (function() {
     }
 
     var html = [];
-    var list = [].slice.call($element);
+    var list = [].slice.call(element);
     for (var k in list) {
       html.push(list[k].innerHTML);
     }
@@ -120,9 +120,8 @@ module.exports = (function() {
     preserveFormat: function(htmlContent) {
       var tmp = document.implementation.createHTMLDocument('sandbox').body;
       var elementCollection = parseHtml(htmlContent);
-      var resultHtml = addMarkers([].slice.call(elementCollection));
 
-      tmp.innerHTML = resultHtml;
+      tmp.innerHTML = addMarkers([].slice.call(elementCollection));
 
       return tmp.textContent || tmp.innerText || '';
     },
