@@ -51,25 +51,42 @@ module.exports = (function() {
     element.textContent = [marker.startMarker, element.textContent, marker.endMarker].join('');
   };
 
+  var getChildren = function(el) {
+    var children = [];
+
+    if (typeof el.length !== 'undefined') {
+      for (var i = 0; i < el.length; i++) {
+        var e = el[i];
+
+        children = children.concat([].slice.call(e.children));
+      }
+
+      return children;
+    }
+
+    return [].slice.call(el.children);
+  };
+
   var addMarkers = function($element) {
-    if ($element.children().length) {
-      addMarkers(jQuery($element.children()));
+    var children = getChildren($element);
+    if (children.length) {
+      addMarkers(children);
     }
 
     for (var o in marker) {
       var styleMarker = marker[o];
-        var list = [].slice.call($element);
-        for(var k in list){
-          var el = list[k];
-          if (styleMarker.test(el)) {
-            addMarker(el, styleMarker);
-          }
+      var list = [].slice.call($element);
+      for (var k in list) {
+        var el = list[k];
+        if (styleMarker.test(el)) {
+          addMarker(el, styleMarker);
         }
+      }
     }
 
     var html = [];
     var list = [].slice.call($element);
-    for(var k in list){
+    for (var k in list) {
       html.push(list[k].innerHTML);
     }
 
@@ -88,10 +105,24 @@ module.exports = (function() {
     return element;
   };
 
+  var parseHtml = function(html) {
+    var tmpDocument = document.implementation.createHTMLDocument('parser');
+    tmpDocument.body.innerHTML = [
+      '<head></head>',
+      html,
+      '<body></body>'
+    ].join('');
+
+    return tmpDocument.body.children;
+  };
+
   return {
     preserveFormat: function(htmlContent) {
       var tmp = document.implementation.createHTMLDocument('sandbox').body;
-      tmp.innerHTML = addMarkers(jQuery(htmlContent));
+      var elementCollection = parseHtml(htmlContent);
+      var resultHtml = addMarkers([].slice.call(elementCollection));
+
+      tmp.innerHTML = resultHtml;
 
       return tmp.textContent || tmp.innerText || '';
     },
