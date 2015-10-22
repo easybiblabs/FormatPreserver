@@ -3,13 +3,10 @@ SHELL=/bin/bash
 ### installing
 
 install:
-	$(MAKE) npm
+	npm install
 
 clear-cache:
 	rm -rf node_modules
-
-npm:
-	npm install
 
 ### ci / testing
 
