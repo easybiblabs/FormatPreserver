@@ -1,12 +1,6 @@
 SHELL=/bin/bash
 
-# some commands need sudo on linux, but not on macs, or travis
-# (see .travis.yml)
-export NODE_MODULES=./node_modules/.bin/
-export KARMA=$(NODE_MODULES)karma
-export GULP=$(NODE_MODULES)gulp
-
-### installing / building
+### installing
 
 install:
 	$(MAKE) npm
@@ -20,11 +14,11 @@ npm:
 ### ci / testing
 
 ci:
-	$(GULP) lint
-	$(MAKE) karma
+	npm run lint
+	npm run karma
 
 karma:
-	$(KARMA) start karma.conf.js --single-run
+	npm run karma
 
 karma-ci:
-	$(KARMA) start
+	npm run karma-ci
