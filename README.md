@@ -3,11 +3,11 @@
 Given you want to strip HTML markup and styles from a string this small library will help you with that.
 A common use case is to preserve styles like B, U, I when pasting into a texteditor but remove all other styles and markup.
 
-### Setup
+#### Setup
 
 * make install
 
-### CI
+#### CI
 
 * make ci
 
