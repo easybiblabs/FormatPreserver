@@ -1,5 +1,5 @@
 {
-  "name": "format-preserver",
+  "name": "imagineeasy-format-preserver",
   "version": "0.0.1",
   "description": "Used to preserve formats like BUI when stripping markup and styles from HTML string",
   "main": "src/format-preserver/format-preserver.js",
