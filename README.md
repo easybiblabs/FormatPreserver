@@ -3,7 +3,11 @@
 Given you want to strip HTML markup and styles from a string this small library will help you with that.
 A common use case is to preserve styles like B, U, I when pasting into a texteditor but remove all other styles and markup.
 
-#### Setup
+#### Install
+
+* `npm install imagineeasy-format-preserver --save`
+
+#### Dev Setup
 
 * make install
 
