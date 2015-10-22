@@ -1,0 +1,32 @@
+language: node_js
+
+node_js: 4.2.1
+
+install:
+  - make install
+  - npm -v
+  - node -v
+
+sudo: false
+
+script:
+  - make install
+  - make -k ci
+
+cache:
+  directories:
+  - $HOME/.composer/cache/repo/
+  - $TRAVIS_BUILD_DIR/node_modules/
+
+notifications:
+  email:
+    on_success: never
+
+env:
+  global:
+    - ARTIFACT_FOLDER: ./
+
+branches:
+  only:
+    - master
+    - /^\d+\.\d+\.\d+$/

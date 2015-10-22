@@ -1,0 +1,6 @@
+{
+  "preset": "airbnb",
+  "disallowQuotedKeysInObjects": null,
+  "requireMultipleVarDecl": null,
+  "safeContextKeyword": "self"
+}
