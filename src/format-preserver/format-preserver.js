@@ -73,10 +73,10 @@ module.exports = (function() {
     for (var k in list) {
       var node = list[k];
       switch (node.nodeType) {
-        case 1: // regular element nodes
+        case Node.ELEMENT_NODE:
           html.push(node.innerHTML);
           break;
-        case 3: // text nodes
+        case Node.TEXT_NODE:
           html.push(node.nodeValue);
           break;
         default:
@@ -99,7 +99,7 @@ module.exports = (function() {
       var list = [].slice.call(element);
       for (var k in list) {
         var listItem = list[k];
-        if (listItem.nodeType === 1 && styleMarker.test(listItem)) {
+        if (listItem.nodeType === Node.ELEMENT_NODE && styleMarker.test(listItem)) {
           addMarker(listItem, styleMarker);
         }
       }
