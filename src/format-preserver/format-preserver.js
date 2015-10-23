@@ -58,13 +58,20 @@ module.exports = (function() {
       for (var i = 0; i < el.length; i++) {
         var e = el[i];
 
-        children = children.concat([].slice.call(e.children));
+        if(e.nodeType === Node.ELEMENT_NODE){
+          children = children.concat([].slice.call(e.children));
+        }
       }
 
       return children;
     }
 
-    return [].slice.call(el.children);
+
+    if(el.nodeType === Node.ELEMENT_NODE){
+      return [].slice.call(el.children);
+    }
+
+    return [];
   };
 
   var getHtml = function(element) {
@@ -129,6 +136,12 @@ module.exports = (function() {
 
   return {
     preserveFormat: function(htmlContent) {
+      if(typeof htmlContent === 'undefined'){
+        console.log('undefined content');
+        return '';
+      }
+
+      console.log('html', htmlContent);
       var tmp = document.implementation.createHTMLDocument('sandbox').body;
       var elementCollection = parseHtml(htmlContent);
 
