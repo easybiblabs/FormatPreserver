@@ -67,8 +67,29 @@ module.exports = (function() {
     return [].slice.call(el.children);
   };
 
+  var getHtml = function(element) {
+    var html = [];
+    var list = [].slice.call(element);
+    for (var k in list) {
+      var node = list[k];
+      switch (node.nodeType) {
+        case Node.ELEMENT_NODE:
+          html.push(node.innerHTML);
+          break;
+        case Node.TEXT_NODE:
+          html.push(node.nodeValue);
+          break;
+        default:
+
+      }
+    }
+
+    return html.join('');
+  };
+
   var addMarkers = function(element) {
     var children = getChildren(element);
+
     if (children.length) {
       addMarkers(children);
     }
@@ -77,20 +98,14 @@ module.exports = (function() {
       var styleMarker = marker[o];
       var list = [].slice.call(element);
       for (var k in list) {
-        var el = list[k];
-        if (styleMarker.test(el)) {
-          addMarker(el, styleMarker);
+        var listItem = list[k];
+        if (listItem.nodeType === Node.ELEMENT_NODE && styleMarker.test(listItem)) {
+          addMarker(listItem, styleMarker);
         }
       }
     }
 
-    var html = [];
-    var list = [].slice.call(element);
-    for (var k in list) {
-      html.push(list[k].innerHTML);
-    }
-
-    return html.join('');
+    return getHtml(element);
   };
 
   var replaceMaker = function(element) {
@@ -107,13 +122,9 @@ module.exports = (function() {
 
   var parseHtml = function(html) {
     var tmpDocument = document.implementation.createHTMLDocument('parser');
-    tmpDocument.body.innerHTML = [
-      '<head></head>',
-      html,
-      '<body></body>'
-    ].join('');
+    tmpDocument.body.innerHTML = html;
 
-    return tmpDocument.body.children;
+    return tmpDocument.body.childNodes;
   };
 
   return {

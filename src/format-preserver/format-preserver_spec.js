@@ -7,11 +7,13 @@ describe('Format Preserver', function() {
     describe('using inline styles', function() {
       it('should strip html and styles but preserve bold, italics, underline as inline style', function() {
         var pasteContent = [
+          'Text should not be removed',
           '<div style="font-weight: bold">inner</div>',
           '<p style="text-decoration: underline">inner</p>',
           '<span style="font-style: italic">inner</span>'
         ].join('');
         var expected = [
+          'Text should not be removed',
           '<span style="font-weight: bold">inner</span>',
           '<span style="text-decoration: underline">inner</span>',
           '<span style="font-style: italic">inner</span>'
@@ -71,13 +73,16 @@ describe('Format Preserver', function() {
     describe('using inline styles', function() {
       it('should strip html and styles but preserve bold, italics, underline', function() {
         var pasteContent = [
+          'Text should not ',
           '<div>',
+          'be removed',
           '<span style="font-weight: bold">inner</span>',
           '<span style="text-decoration: underline">inner</span>',
           '<span style="font-style: italic">inner</span>',
           '</div>'
         ].join('');
         var expected = [
+          'Text should not be removed',
           '<span style="font-weight: bold">inner</span>',
           '<span style="text-decoration: underline">inner</span>',
           '<span style="font-style: italic">inner</span>'
