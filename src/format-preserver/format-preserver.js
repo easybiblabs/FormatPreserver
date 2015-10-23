@@ -69,6 +69,7 @@ module.exports = (function() {
 
   var addMarkers = function(element) {
     var children = getChildren(element);
+
     if (children.length) {
       addMarkers(children);
     }
@@ -77,9 +78,9 @@ module.exports = (function() {
       var styleMarker = marker[o];
       var list = [].slice.call(element);
       for (var k in list) {
-        var el = list[k];
-        if (styleMarker.test(el)) {
-          addMarker(el, styleMarker);
+        var listItem = list[k];
+        if (listItem.nodeType === 1 && styleMarker.test(listItem)) {
+          addMarker(listItem, styleMarker);
         }
       }
     }
@@ -87,7 +88,14 @@ module.exports = (function() {
     var html = [];
     var list = [].slice.call(element);
     for (var k in list) {
-      html.push(list[k].innerHTML);
+      var node = list[k];
+      switch(node.nodeType){
+        case 1: // regular element nodes
+          html.push(node.innerHTML);
+          break;
+        case 3: // text nodes
+          html.push(node.nodeValue);
+      }
     }
 
     return html.join('');
@@ -107,13 +115,9 @@ module.exports = (function() {
 
   var parseHtml = function(html) {
     var tmpDocument = document.implementation.createHTMLDocument('parser');
-    tmpDocument.body.innerHTML = [
-      '<head></head>',
-      html,
-      '<body></body>'
-    ].join('');
+    tmpDocument.body.innerHTML = html;
 
-    return tmpDocument.body.children;
+    return tmpDocument.body.childNodes;
   };
 
   return {
