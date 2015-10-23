@@ -67,6 +67,26 @@ module.exports = (function() {
     return [].slice.call(el.children);
   };
 
+  var getHtml = function(element) {
+    var html = [];
+    var list = [].slice.call(element);
+    for (var k in list) {
+      var node = list[k];
+      switch (node.nodeType) {
+        case 1: // regular element nodes
+          html.push(node.innerHTML);
+          break;
+        case 3: // text nodes
+          html.push(node.nodeValue);
+          break;
+        default:
+
+      }
+    }
+
+    return html.join('');
+  };
+
   var addMarkers = function(element) {
     var children = getChildren(element);
 
@@ -85,20 +105,7 @@ module.exports = (function() {
       }
     }
 
-    var html = [];
-    var list = [].slice.call(element);
-    for (var k in list) {
-      var node = list[k];
-      switch(node.nodeType){
-        case 1: // regular element nodes
-          html.push(node.innerHTML);
-          break;
-        case 3: // text nodes
-          html.push(node.nodeValue);
-      }
-    }
-
-    return html.join('');
+    return getHtml(element);
   };
 
   var replaceMaker = function(element) {
