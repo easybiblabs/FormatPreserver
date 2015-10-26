@@ -135,16 +135,13 @@ module.exports = (function() {
   };
 
   return {
-    preserveFormat: function(htmlContent) {
+    sanitize: function(htmlContent) {
       var tmp = document.implementation.createHTMLDocument('sandbox').body;
       var elementCollection = parseHtml(htmlContent);
 
       tmp.innerHTML = addMarkers([].slice.call(elementCollection));
 
-      return tmp.textContent || tmp.innerText || '';
-    },
-    restoreFormat: function(htmlContent) {
-      return replaceMaker(htmlContent);
+      return replaceMaker(tmp.textContent || tmp.innerText);
     }
   };
 }());
