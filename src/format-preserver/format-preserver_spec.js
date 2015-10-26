@@ -19,7 +19,7 @@ describe('Format Preserver', function() {
           '<span style="font-style: italic">inner</span>'
         ].join('');
 
-        expect(FormatPreserver.restoreFormat(FormatPreserver.preserveFormat(pasteContent))).to.be.equal(expected);
+        expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
       });
 
       it('should strip html and styles but preserve bold, italics, underline as inline style when all apply on the same element', function() {
@@ -33,7 +33,7 @@ describe('Format Preserver', function() {
           'inner</span></span></span>'
         ].join('');
 
-        expect(FormatPreserver.restoreFormat(FormatPreserver.preserveFormat(pasteContent))).to.be.equal(expected);
+        expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
       });
     });
 
@@ -50,7 +50,7 @@ describe('Format Preserver', function() {
           '<span style="font-style: italic">italic</span>'
         ].join('');
 
-        expect(FormatPreserver.restoreFormat(FormatPreserver.preserveFormat(pasteContent))).to.be.equal(expected);
+        expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
       });
 
       it('should strip html and styles but preserve bold, italics, underline as inline style when nested', function() {
@@ -64,7 +64,7 @@ describe('Format Preserver', function() {
           'inner</span></span></span>'
         ].join('');
 
-        expect(FormatPreserver.restoreFormat(FormatPreserver.preserveFormat(pasteContent))).to.be.equal(expected);
+        expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
       });
     });
   });
@@ -88,7 +88,7 @@ describe('Format Preserver', function() {
           '<span style="font-style: italic">inner</span>'
         ].join('');
 
-        expect(FormatPreserver.restoreFormat(FormatPreserver.preserveFormat(pasteContent))).to.be.equal(expected);
+        expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
       });
 
       describe('using tags BUI', function() {
@@ -108,7 +108,7 @@ describe('Format Preserver', function() {
             '<span style="font-style: italic">italic</span>'
           ].join('');
 
-          expect(FormatPreserver.restoreFormat(FormatPreserver.preserveFormat(pasteContent))).to.be.equal(expected);
+          expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
         });
 
         it('should strip html and styles but preserve bold, italics, underline as inline style when nested', function() {
@@ -122,7 +122,7 @@ describe('Format Preserver', function() {
             'inner</span></span></span>'
           ].join('');
 
-          expect(FormatPreserver.restoreFormat(FormatPreserver.preserveFormat(pasteContent))).to.be.equal(expected);
+          expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
         });
       });
     });
