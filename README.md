@@ -19,7 +19,7 @@ A common use case is to preserve styles like B, U, I when pasting into a textedi
 
 ```js
 
-var FormatPreserver = require('format-preserver');
+var FormatPreserver = require('imagineeasy-format-preserver');
 
 FormatPreserver.sanitize('<i><p style="font-weight: bold">Bold text</p></i>');
 // returns  <span style="font-style: italic"><span style=font-weight: bold>Italic Bold text</span></span>
