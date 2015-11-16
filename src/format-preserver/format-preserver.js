@@ -136,16 +136,12 @@ module.exports = (function() {
 
   return {
     sanitize: function(htmlContent) {
-      try {
-        var tmp = document.implementation.createHTMLDocument('sandbox').body;
-        var elementCollection = parseHtml(htmlContent);
+      var tmp = document.implementation.createHTMLDocument('sandbox').body;
+      var elementCollection = parseHtml(htmlContent);
 
-        tmp.innerHTML = addMarkers([].slice.call(elementCollection));
+      tmp.innerHTML = addMarkers([].slice.call(elementCollection));
 
-        return replaceMaker(tmp.textContent || tmp.innerText || '');
-      } catch (e) {
-        return htmlContent;
-      }
+      return replaceMaker(tmp.textContent || tmp.innerText || '');
     }
   };
 }());
