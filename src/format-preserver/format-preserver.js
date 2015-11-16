@@ -141,7 +141,7 @@ module.exports = (function() {
 
       tmp.innerHTML = addMarkers([].slice.call(elementCollection));
 
-      return replaceMaker(tmp.textContent || tmp.innerText);
+      return replaceMaker(tmp.textContent || tmp.innerText || '');
     }
   };
 }());
