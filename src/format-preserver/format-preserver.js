@@ -144,6 +144,9 @@ module.exports = (function() {
 
   return {
     sanitize: function(htmlContent) {
+      if (typeof htmlContent !== 'string') {
+        return htmlContent;
+      }
       var tmp = document.implementation.createHTMLDocument('sandbox').body;
       var elementCollection = parseHtmlString(htmlContent);
 
