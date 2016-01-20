@@ -127,9 +127,17 @@ module.exports = (function() {
     return element;
   };
 
-  var parseHtml = function(html) {
+  var maskHtmlEntities = function(str) {
+    return str.replace(/&/g, '#AMP#');
+  };
+
+  var demaskHtmlEntities = function(str) {
+    return str.replace(/#AMP#/g, '&')
+  };
+
+  var parseHtmlString = function(htmlString) {
     var tmpDocument = document.implementation.createHTMLDocument('parser');
-    tmpDocument.body.innerHTML = html;
+    tmpDocument.body.innerHTML = maskHtmlEntities(htmlString);
 
     return tmpDocument.body.childNodes;
   };
@@ -137,11 +145,11 @@ module.exports = (function() {
   return {
     sanitize: function(htmlContent) {
       var tmp = document.implementation.createHTMLDocument('sandbox').body;
-      var elementCollection = parseHtml(htmlContent);
+      var elementCollection = parseHtmlString(htmlContent);
 
       tmp.innerHTML = addMarkers([].slice.call(elementCollection));
 
-      return replaceMaker(tmp.textContent || tmp.innerText || '');
+      return demaskHtmlEntities(replaceMaker(tmp.textContent || tmp.innerText || ''));
     }
   };
 }());
