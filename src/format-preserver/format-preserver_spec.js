@@ -32,7 +32,12 @@ describe('Format Preserver', function() {
           '<span style="font-weight: bold">',
           'inner</span></span></span>'
         ].join('');
+        expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
+      });
 
+      it('should preserve html-enitites', function() {
+        var pasteContent = '&lt;foo&gt; &amp; &amp; %lt;';
+        var expected = pasteContent;
         expect(FormatPreserver.sanitize(pasteContent)).to.be.equal(expected);
       });
     });
